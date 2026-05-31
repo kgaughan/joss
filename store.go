@@ -63,7 +63,7 @@ func getStoreFormatFromData(data []byte) (int, error) {
 func ReadJSON(filePath string) (GossConfig, error) {
 	file, err := os.ReadFile(filePath)
 	if err != nil {
-		return GossConfig{}, fmt.Errorf("file error: %v", err)
+		return GossConfig{}, fmt.Errorf("file error: %w", err)
 	}
 
 	return ReadJSONData(file, false)
@@ -193,7 +193,7 @@ func RenderJSON(c *util.Config) (string, error) {
 
 	b, err := marshal(gossConfig)
 	if err != nil {
-		return "", fmt.Errorf("rendering failed: %v", err)
+		return "", fmt.Errorf("rendering failed: %w", err)
 	}
 
 	return string(b), nil
@@ -230,7 +230,7 @@ func mergeJSONData(gossConfig GossConfig, depth int, path string) (GossConfig, e
 		}
 		matches, err := filepath.Glob(fpath)
 		if err != nil {
-			return ret, fmt.Errorf("error in expanding glob pattern: %q", err)
+			return ret, fmt.Errorf("error in expanding glob pattern: %w", err)
 		}
 		if matches == nil {
 			return ret, fmt.Errorf("no matched files were found: %q", fpath)
@@ -239,11 +239,11 @@ func mergeJSONData(gossConfig GossConfig, depth int, path string) (GossConfig, e
 			fdir := filepath.Dir(match)
 			j, err := ReadJSON(match)
 			if err != nil {
-				return GossConfig{}, fmt.Errorf("could not read json data in %s: %s", match, err)
+				return GossConfig{}, fmt.Errorf("could not read json data in %s: %w", match, err)
 			}
 			j, err = mergeJSONData(j, depth, fdir)
 			if err != nil {
-				return ret, fmt.Errorf("could not write json data: %s", err)
+				return ret, fmt.Errorf("could not write json data: %w", err)
 			}
 			ret = mergeGoss(ret, j)
 		}
@@ -254,14 +254,14 @@ func mergeJSONData(gossConfig GossConfig, depth int, path string) (GossConfig, e
 func WriteJSON(filePath string, gossConfig GossConfig) error {
 	jsonData, err := marshal(gossConfig)
 	if err != nil {
-		return fmt.Errorf("failed to write %s: %s", filePath, err)
+		return fmt.Errorf("failed to write %s: %w", filePath, err)
 	}
 
 	// check if the auto added json data is empty before writing to file.
 	emptyConfig := *NewGossConfig()
 	emptyData, err := marshal(emptyConfig)
 	if err != nil {
-		return fmt.Errorf("failed to write %s: %s", filePath, err)
+		return fmt.Errorf("failed to write %s: %w", filePath, err)
 	}
 
 	if string(emptyData) == string(jsonData) {
@@ -270,7 +270,7 @@ func WriteJSON(filePath string, gossConfig GossConfig) error {
 	}
 
 	if err := os.WriteFile(filePath, jsonData, 0o644); err != nil {
-		return fmt.Errorf("failed to write %s: %s", filePath, err)
+		return fmt.Errorf("failed to write %s: %w", filePath, err)
 	}
 
 	return nil
