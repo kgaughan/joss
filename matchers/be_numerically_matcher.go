@@ -10,17 +10,17 @@ import (
 type BeNumericallyMatcher struct {
 	fakeOmegaMatcher
 	Comparator string
-	CompareTo  []interface{}
+	CompareTo  []any
 }
 
-func BeNumerically(comparator string, compareTo ...interface{}) GossMatcher {
+func BeNumerically(comparator string, compareTo ...any) GossMatcher {
 	return &BeNumericallyMatcher{
 		Comparator: comparator,
 		CompareTo:  compareTo,
 	}
 }
 
-func (m *BeNumericallyMatcher) Match(actual interface{}) (success bool, err error) {
+func (m *BeNumericallyMatcher) Match(actual any) (success bool, err error) {
 	comparator, err := strToSymbol(m.Comparator)
 	if err != nil {
 		return false, err
@@ -32,7 +32,7 @@ func (m *BeNumericallyMatcher) Match(actual interface{}) (success bool, err erro
 	return matcher.Match(actual)
 }
 
-func (m *BeNumericallyMatcher) FailureResult(actual interface{}) MatcherResult {
+func (m *BeNumericallyMatcher) FailureResult(actual any) MatcherResult {
 	return MatcherResult{
 		Actual:   actual,
 		Message:  fmt.Sprintf("to be numerically %s", m.Comparator),
@@ -40,7 +40,7 @@ func (m *BeNumericallyMatcher) FailureResult(actual interface{}) MatcherResult {
 	}
 }
 
-func (m *BeNumericallyMatcher) NegatedFailureResult(actual interface{}) MatcherResult {
+func (m *BeNumericallyMatcher) NegatedFailureResult(actual any) MatcherResult {
 	return MatcherResult{
 		Actual:   actual,
 		Message:  fmt.Sprintf("not to be numerically %s", m.Comparator),
@@ -49,7 +49,7 @@ func (m *BeNumericallyMatcher) NegatedFailureResult(actual interface{}) MatcherR
 }
 
 func (m *BeNumericallyMatcher) MarshalJSON() ([]byte, error) {
-	j := make(map[string]interface{})
+	j := make(map[string]any)
 	j[m.Comparator] = m.CompareTo[0]
 	return json.Marshal(j)
 }

@@ -15,12 +15,12 @@ import (
 var errInvalidJSON = errors.New("Invalid json")
 
 type Transformer interface {
-	Transform(interface{}) (interface{}, error)
+	Transform(any) (any, error)
 }
 
 type ToNumeric struct{}
 
-func (t ToNumeric) Transform(e interface{}) (interface{}, error) {
+func (t ToNumeric) Transform(e any) (any, error) {
 	switch v := e.(type) {
 	case float64, int:
 		return v, nil
@@ -40,7 +40,7 @@ func (t ToNumeric) Transform(e interface{}) (interface{}, error) {
 }
 
 func (t ToNumeric) MarshalJSON() ([]byte, error) {
-	j := map[string]interface{}{
+	j := map[string]any{
 		"to-numeric": map[string]string{},
 	}
 	return json.Marshal(j)
@@ -48,9 +48,9 @@ func (t ToNumeric) MarshalJSON() ([]byte, error) {
 
 type ToString struct{}
 
-func (t ToString) Transform(e interface{}) (interface{}, error) {
+func (t ToString) Transform(e any) (any, error) {
 	switch v := e.(type) {
-	case []interface{}:
+	case []any:
 		vs := make([]string, len(v))
 		for i, v := range v {
 			vs[i] = fmt.Sprintf("%v", v)
@@ -64,7 +64,7 @@ func (t ToString) Transform(e interface{}) (interface{}, error) {
 }
 
 func (t ToString) MarshalJSON() ([]byte, error) {
-	j := map[string]interface{}{
+	j := map[string]any{
 		"to-string": map[string]string{},
 	}
 	return json.Marshal(j)
@@ -72,7 +72,7 @@ func (t ToString) MarshalJSON() ([]byte, error) {
 
 type ToArray struct{}
 
-func (t ToArray) Transform(i interface{}) (interface{}, error) {
+func (t ToArray) Transform(i any) (any, error) {
 	switch v := i.(type) {
 	case string:
 		return strings.Split(v, "\n"), nil
@@ -82,7 +82,7 @@ func (t ToArray) Transform(i interface{}) (interface{}, error) {
 }
 
 func (matcher ToArray) MarshalJSON() ([]byte, error) {
-	j := map[string]interface{}{
+	j := map[string]any{
 		"to-array": map[string]string{},
 	}
 	return json.Marshal(j)
@@ -106,7 +106,7 @@ func (matcher ToArray) MarshalJSON() ([]byte, error) {
 
 type ReaderToString struct{}
 
-func (t ReaderToString) Transform(i interface{}) (interface{}, error) {
+func (t ReaderToString) Transform(i any) (any, error) {
 	r, ok := i.(io.Reader)
 	if !ok {
 		return nil, fmt.Errorf("Expected io.reader, Got:%s", format.Object(i, 1))
@@ -123,7 +123,7 @@ type Gjson struct {
 	Path string
 }
 
-func (g Gjson) Transform(i interface{}) (interface{}, error) {
+func (g Gjson) Transform(i any) (any, error) {
 	s, ok := i.(string)
 	if !ok {
 		return nil, fmt.Errorf("Expected string, Got:%s", format.Object(i, 1))
@@ -140,7 +140,7 @@ func (g Gjson) Transform(i interface{}) (interface{}, error) {
 }
 
 func (g Gjson) MarshalJSON() ([]byte, error) {
-	j := map[string]interface{}{
+	j := map[string]any{
 		"gjson": map[string]string{
 			"Path": g.Path,
 		},

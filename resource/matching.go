@@ -41,7 +41,7 @@ func (r *Matching) GetMeta() meta    { return r.Meta }
 func (a *Matching) Validate(sys *system.System) []TestResult {
 	skip := a.Skip
 
-	var stub interface{}
+	var stub any
 	if a.AsReader {
 		s := fmt.Sprintf("%v", a.Content)
 		// ValidateValue expects a function

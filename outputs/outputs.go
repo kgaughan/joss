@@ -147,7 +147,7 @@ func maybeAddDiff(ss []string, expected, actual any, compact bool) []string {
 	return ss
 }
 
-func prettyPrint(i interface{}, indent bool) string {
+func prettyPrint(i any, indent bool) string {
 	buffer := &bytes.Buffer{}
 	encoder := json.NewEncoder(buffer)
 	encoder.SetEscapeHTML(false)
