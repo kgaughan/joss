@@ -1,16 +1,31 @@
+version: "2"
 linters:
-  # Disable all linters.
-  # Default: false
-  disable-all: true
-  # Enable specific linter
-  # https://golangci-lint.run/usage/linters/#enabled-by-default
+  default: none
   enable:
-    # default linter
-    # - errcheck # there are to many failures at the moment
-    - gosimple
     - govet
     - ineffassign
     - staticcheck
     - unused
-    # custom linter
+  disable:
+    # would require a lot of work to fix up all of these
+    - staticcheck
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
     - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
