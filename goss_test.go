@@ -62,7 +62,7 @@ func TestUseAsPackage(t *testing.T) {
 	output := &bytes.Buffer{}
 
 	// temp spec file
-	fh, err := os.CreateTemp("", "*.yaml")
+	fh, err := os.CreateTemp(t.TempDir(), "*.yaml")
 	checkErr(t, err, "temp file failed")
 	fh.Close()
 
@@ -124,7 +124,7 @@ func TestSkipResourcesByType(t *testing.T) {
 	output := &bytes.Buffer{}
 
 	// temp spec file
-	fh, err := os.CreateTemp("", "*.yaml")
+	fh, err := os.CreateTemp(t.TempDir(), "*.yaml")
 	checkErr(t, err, "temp file failed")
 	fh.Close()
 

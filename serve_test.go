@@ -304,7 +304,7 @@ func TestServeCacheNegotiatingContent(t *testing.T) {
 }
 
 func makeRequest(t *testing.T, config *util.Config, headers map[string][]string) *http.Request {
-	req, err := http.NewRequest("GET", config.Endpoint, nil)
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, config.Endpoint, nil)
 	require.NoError(t, err)
 	for header, vals := range headers {
 		for _, v := range vals {
