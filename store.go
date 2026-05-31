@@ -2,6 +2,7 @@ package goss
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -28,6 +29,12 @@ var (
 	debug                 = false
 )
 
+var (
+	errCannotDetermineFormat = errors.New("unable to determine format from content")
+	errMaxDepth              = errors.New("max depth of 50 reached, possibly due to dependency loop in goss file")
+	errStoreFormatUnset      = errors.New("StoreFormat unset")
+)
+
 func getStoreFormatFromFileName(f string) (int, error) {
 	ext := filepath.Ext(f)
 	switch ext {
@@ -49,7 +56,7 @@ func getStoreFormatFromData(data []byte) (int, error) {
 		return YAML, nil
 	}
 
-	return 0, fmt.Errorf("unable to determine format from content")
+	return 0, errCannotDetermineFormat
 }
 
 // ReadJSON Reads json file returning GossConfig
@@ -195,7 +202,7 @@ func RenderJSON(c *util.Config) (string, error) {
 func mergeJSONData(gossConfig GossConfig, depth int, path string) (GossConfig, error) {
 	depth++
 	if depth >= 50 {
-		return GossConfig{}, fmt.Errorf("max depth of 50 reached, possibly due to dependency loop in goss file")
+		return GossConfig{}, errMaxDepth
 	}
 	// Our return gossConfig
 	ret := *NewGossConfig()
@@ -288,7 +295,7 @@ func marshal(gossConfig any) ([]byte, error) {
 	case YAML:
 		return marshalYAML(gossConfig)
 	default:
-		return nil, fmt.Errorf("StoreFormat unset")
+		return nil, errStoreFormatUnset
 	}
 }
 
@@ -299,7 +306,7 @@ func unmarshal(data []byte, v any, storeFormat int) error {
 	case YAML:
 		return unmarshalYAML(data, v)
 	default:
-		return fmt.Errorf("StoreFormat unset")
+		return errStoreFormatUnset
 	}
 }
 

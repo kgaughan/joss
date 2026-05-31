@@ -2,6 +2,7 @@ name: Golang ci
 on:
   # don't build any branch other than master (and prs) when git pushed
   pull_request: {}
+  workflow_dispatch:
   push:
     branches:
       - master
