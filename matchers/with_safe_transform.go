@@ -69,7 +69,6 @@ L:
 			}
 		default:
 			break L
-
 		}
 	}
 	return tchain, matcher, tvalue

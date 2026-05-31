@@ -99,7 +99,6 @@ func matcherToGomegaMatcher(matcher any) (matchers.GossMatcher, error) {
 		case map[string]any, string, float64, int:
 		default:
 			return nil, invalidArgSyntaxError("contain-element", "matcher, string or numeric", value)
-
 		}
 		subMatcher, err := matcherToGomegaMatcher(value)
 		if err != nil {
@@ -165,12 +164,10 @@ func matcherToGomegaMatcher(matcher any) (matchers.GossMatcher, error) {
 				return nil, err
 			}
 			subMatchers = append(subMatchers, matchers.WithSafeTransform(matchers.Gjson{Path: key}, subMatcher))
-
 		}
 		return matchers.And(subMatchers...), nil
 	default:
 		return nil, fmt.Errorf("Syntax Error: Unknown matcher: %s", matchType)
-
 	}
 }
 

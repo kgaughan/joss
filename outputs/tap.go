@@ -28,7 +28,7 @@ func (r Tap) Output(w io.Writer, results <-chan []resource.TestResult,
 	testCount := 0
 	failed := 0
 
-	var summary = make(map[int]string)
+	summary := make(map[int]string)
 
 	for resultGroup := range results {
 		for _, testResult := range resultGroup {

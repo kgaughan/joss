@@ -31,7 +31,7 @@ func (r Nagios) Output(w io.Writer, results <-chan []resource.TestResult,
 
 	var startTime time.Time
 	var endTime time.Time
-	var summary = make(map[int]string)
+	summary := make(map[int]string)
 
 	for resultGroup := range results {
 		for _, testResult := range resultGroup {
