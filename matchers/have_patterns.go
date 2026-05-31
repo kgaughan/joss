@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/onsi/gomega/format"
@@ -191,18 +192,12 @@ func newRegexPattern(str string) (*regexPattern, error) {
 		cleanStr = cleanStr[1:]
 	}
 	trimLeft := []rune{'\\', '/'}
-	for _, r := range trimLeft {
-		if rune(cleanStr[0]) == r {
-			cleanStr = cleanStr[1:]
-			break
-		}
+	if slices.Contains(trimLeft, rune(cleanStr[0])) {
+		cleanStr = cleanStr[1:]
 	}
 	trimRight := []rune{'/'}
-	for _, r := range trimRight {
-		if rune(cleanStr[len(cleanStr)-1]) == r {
-			cleanStr = cleanStr[:len(cleanStr)-1]
-			break
-		}
+	if slices.Contains(trimRight, rune(cleanStr[len(cleanStr)-1])) {
+		cleanStr = cleanStr[:len(cleanStr)-1]
 	}
 
 	re, err := regexp.Compile(cleanStr)

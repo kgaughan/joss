@@ -7,6 +7,7 @@ import (
 	"io"
 	"reflect"
 	"regexp"
+	"slices"
 	"sort"
 	"strings"
 	"sync"
@@ -222,13 +223,7 @@ func FormatOptions() []string {
 
 // IsValidFormat determines if f is a valid format name based on Outputers()
 func IsValidFormat(f string) bool {
-	for _, o := range Outputers() {
-		if o == f {
-			return true
-		}
-	}
-
-	return false
+	return slices.Contains(Outputers(), f)
 }
 
 func GetOutputer(name string) (Outputer, error) {

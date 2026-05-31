@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"maps"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -93,9 +94,7 @@ func loadVars(varsFile, varsInline string) (map[string]any, error) {
 		return nil, fmt.Errorf("loading inline vars\n%w", err)
 	}
 
-	for k, v := range varsExtra {
-		vars[k] = v
-	}
+	maps.Copy(vars, varsExtra)
 
 	return vars, nil
 }
