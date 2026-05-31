@@ -30,7 +30,6 @@ jobs:
           version: v2.12.2
 
   coverage:
-    needs: [lint]
     name: coverage
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +42,7 @@ jobs:
         run: make cov
 
   integration-test-linux:
-    needs: [coverage]
+    needs: [lint, coverage]
     name: Integration tests (ubuntu-latest)
     runs-on: ubuntu-latest
 
@@ -58,7 +57,7 @@ jobs:
         run: make test-int-all
 
   integration-test-other:
-    needs: [coverage]
+    needs: [lint, coverage]
     name: Integration tests
     runs-on: ${{ matrix.os }}
 
