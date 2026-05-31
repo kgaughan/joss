@@ -18,6 +18,7 @@ func ContainElements(elements ...interface{}) GossMatcher {
 		},
 	}
 }
+
 func (m *ContainElementsMatcher) FailureResult(actual interface{}) MatcherResult {
 	missingElements := getUnexported(m, "missingElements")
 	missingEl, ok := missingElements.([]interface{})
@@ -32,15 +33,14 @@ func (m *ContainElementsMatcher) FailureResult(actual interface{}) MatcherResult
 		MissingElements: missingElements,
 		FoundElements:   foundElements,
 	}
-
 }
+
 func (m *ContainElementsMatcher) NegatedFailureResult(actual interface{}) MatcherResult {
 	return MatcherResult{
 		Actual:   actual,
 		Message:  "not to contain elements matching",
 		Expected: m.Elements,
 	}
-
 }
 
 func (m *ContainElementsMatcher) MarshalJSON() ([]byte, error) {

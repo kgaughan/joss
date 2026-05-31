@@ -48,12 +48,14 @@ var (
 	foSort       = "sort"
 )
 
-var green = color.New(color.FgGreen).SprintfFunc()
-var red = color.New(color.FgRed).SprintfFunc()
-var yellow = color.New(color.FgYellow).SprintfFunc()
-var multiple_space = regexp.MustCompile(`\s+`)
+var (
+	green          = color.New(color.FgGreen).SprintfFunc()
+	red            = color.New(color.FgRed).SprintfFunc()
+	yellow         = color.New(color.FgYellow).SprintfFunc()
+	multiple_space = regexp.MustCompile(`\s+`)
+)
 
-func humanizeResult(r resource.TestResult, compact bool, includeRaw bool) string {
+func humanizeResult(r resource.TestResult, compact, includeRaw bool) string {
 	sep := "\n"
 	if compact {
 		sep = " "
@@ -72,7 +74,7 @@ func humanizeResult(r resource.TestResult, compact bool, includeRaw bool) string
 	}
 }
 
-func prettyPrintTestResult(t resource.TestResult, compact bool, includeRaw bool) string {
+func prettyPrintTestResult(t resource.TestResult, compact, includeRaw bool) string {
 	sep := "\n"
 	if compact {
 		sep = " "

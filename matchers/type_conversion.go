@@ -35,6 +35,7 @@ func (t ToNumeric) Transform(e interface{}) (interface{}, error) {
 
 	}
 }
+
 func (t ToNumeric) MarshalJSON() ([]byte, error) {
 	j := map[string]interface{}{
 		"to-numeric": map[string]string{},
@@ -76,6 +77,7 @@ func (t ToArray) Transform(i interface{}) (interface{}, error) {
 		return i, nil
 	}
 }
+
 func (matcher ToArray) MarshalJSON() ([]byte, error) {
 	j := map[string]interface{}{
 		"to-array": map[string]string{},
@@ -133,6 +135,7 @@ func (g Gjson) Transform(i interface{}) (interface{}, error) {
 
 	return r.Value(), nil
 }
+
 func (g Gjson) MarshalJSON() ([]byte, error) {
 	j := map[string]interface{}{
 		"gjson": map[string]string{

@@ -22,9 +22,11 @@ const (
 	YAML
 )
 
-var outStoreFormat = UNSET
-var currentTemplateFilter TemplateFilter
-var debug = false
+var (
+	outStoreFormat        = UNSET
+	currentTemplateFilter TemplateFilter
+	debug                 = false
+)
 
 func getStoreFormatFromFileName(f string) (int, error) {
 	ext := filepath.Ext(f)
@@ -73,7 +75,7 @@ func (t *TmplVars) Env() map[string]string {
 	return env
 }
 
-func loadVars(varsFile string, varsInline string) (map[string]any, error) {
+func loadVars(varsFile, varsInline string) (map[string]any, error) {
 	vars, err := varsFromFile(varsFile)
 	if err != nil {
 		return nil, fmt.Errorf("loading vars file '%s'\n%w", varsFile, err)
@@ -260,7 +262,7 @@ func WriteJSON(filePath string, gossConfig GossConfig) error {
 		return nil
 	}
 
-	if err := os.WriteFile(filePath, jsonData, 0644); err != nil {
+	if err := os.WriteFile(filePath, jsonData, 0o644); err != nil {
 		return fmt.Errorf("failed to write %s: %s", filePath, err)
 	}
 

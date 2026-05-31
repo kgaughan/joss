@@ -19,7 +19,6 @@ type WithSafeTransformMatcher struct {
 }
 
 func WithSafeTransform(transform Transformer, matcher GossMatcher) GossMatcher {
-
 	return &WithSafeTransformMatcher{
 		Transform: transform,
 		Matcher:   matcher,
@@ -47,6 +46,7 @@ func (m *WithSafeTransformMatcher) FailureResult(actual interface{}) MatcherResu
 	result.UntransformedValue = actual
 	return result
 }
+
 func (m *WithSafeTransformMatcher) NegatedFailureResult(actual interface{}) MatcherResult {
 	tchain, matcher, tvalue := m.getTransformerChainAndMatcher()
 	result := matcher.NegatedFailureResult(tvalue)
@@ -73,7 +73,6 @@ L:
 		}
 	}
 	return tchain, matcher, tvalue
-
 }
 
 func (m *WithSafeTransformMatcher) MarshalJSON() ([]byte, error) {

@@ -66,7 +66,6 @@ func matcherToGomegaMatcher(matcher any) (matchers.GossMatcher, error) {
 		v, isStr := value.(string)
 		if !isStr {
 			return nil, invalidArgSyntaxError("contain-substring", "string", value)
-
 		}
 		return matchers.WithSafeTransform(matchers.ToString{}, matchers.ContainSubstring(v)), nil
 	case "have-len":
@@ -84,7 +83,6 @@ func matcherToGomegaMatcher(matcher any) (matchers.GossMatcher, error) {
 		_, isArr := value.([]any)
 		if !isArr {
 			return nil, invalidArgSyntaxError("have-patterns", "array", value)
-
 		}
 		return matchers.WithSafeTransform(matchers.ToString{}, matchers.HavePatterns(value)), nil
 	case "have-key":
@@ -150,7 +148,6 @@ func matcherToGomegaMatcher(matcher any) (matchers.GossMatcher, error) {
 		v, isStr := value.(string)
 		if !isStr {
 			return nil, invalidArgSyntaxError("semver-constraint", "string", value)
-
 		}
 		return matchers.BeSemverConstraint(v), nil
 	case "gjson":

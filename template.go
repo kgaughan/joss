@@ -16,7 +16,7 @@ import (
 type TemplateFilter func([]byte) ([]byte, error)
 
 // NewTemplateFilter creates a new Template Filter based in the file and inline variables.
-func NewTemplateFilter(varsFile string, varsInline string) (func([]byte) ([]byte, error), error) {
+func NewTemplateFilter(varsFile, varsInline string) (func([]byte) ([]byte, error), error) {
 	vars, err := loadVars(varsFile, varsInline)
 	if err != nil {
 		return nil, fmt.Errorf("failed while loading vars file %q: %v", varsFile, err)
@@ -54,7 +54,6 @@ func readFile(f string) (string, error) {
 	b, err := os.ReadFile(f)
 	if err != nil {
 		return "", err
-
 	}
 	return strings.TrimSpace(string(b)), nil
 }

@@ -19,6 +19,7 @@ func BeNumerically(comparator string, compareTo ...interface{}) GossMatcher {
 		CompareTo:  compareTo,
 	}
 }
+
 func (m *BeNumericallyMatcher) Match(actual interface{}) (success bool, err error) {
 	comparator, err := strToSymbol(m.Comparator)
 	if err != nil {

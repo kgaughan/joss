@@ -22,7 +22,8 @@ func (r JUnit) ValidOptions() []*formatOption {
 }
 
 func (r JUnit) Output(w io.Writer, results <-chan []resource.TestResult,
-	outConfig util.OutputConfig) (exitCode int) {
+	outConfig util.OutputConfig,
+) (exitCode int) {
 	includeRaw := !util.IsValueInList(foExcludeRaw, outConfig.FormatOptions)
 
 	sort := util.IsValueInList(foSort, outConfig.FormatOptions)
