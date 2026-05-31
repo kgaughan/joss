@@ -67,7 +67,9 @@ release:
 	$(MAKE) clean
 	$(MAKE) build
 
-build: release/goss-darwin-amd64 release/goss-darwin-arm64 release/goss-linux-386 release/goss-linux-amd64 release/goss-linux-arm release/goss-linux-arm64 release/goss-linux-s390x release/goss-windows-amd64
+build: build-linux release/goss-darwin-amd64 release/goss-darwin-arm64 release/goss-windows-amd64
+
+build-linux: release/goss-linux-386 release/goss-linux-amd64 release/goss-linux-arm release/goss-linux-arm64 release/goss-linux-s390x
 
 gen:
 	$(info INFO: Starting build $@)
@@ -102,42 +104,42 @@ test-int-darwin-all: test-int-validate-darwin-amd64 test-int-serve-darwin-amd64
 test-int-windows-all: test-int-validate-windows-amd64 test-int-serve-windows-amd64
 test-int-all: test-int-32 test-int-64
 
-centos7-32: build
+centos7-32: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh centos7 386
 .PHONY: rockylinux9-32
-rockylinux9-32: build
+rockylinux9-32: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh rockylinux9 386
 .PHONY: bullseye-32
-bullseye-32: build
+bullseye-32: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh bullseye 386
 .PHONY: alpine3-32
-alpine3-32: build
+alpine3-32: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh alpine3 386
-centos7: build
+centos7: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh centos7 amd64
 .PHONY: rockylinux9
-rockylinux9: build
+rockylinux9: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh rockylinux9 amd64
 .PHONY: bullseye
-bullseye: build
+bullseye: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh bullseye amd64
 .PHONY: jammy
-jammy: build
+jammy: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh jammy amd64
 .PHONY: alpine3
-alpine3: build
+alpine3: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh alpine3 amd64
 .PHONY: arch
-arch: build
+arch: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh arch amd64
 
