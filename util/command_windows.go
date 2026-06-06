@@ -1,18 +1,15 @@
 //go:build windows
-// +build windows
 
 package util
 
 import (
 	"strings"
 
-	//"fmt"
 	"os/exec"
 	"syscall"
 )
 
 func NewCommandForWindowsCmd(name string, arg ...string) *Command {
-	//fmt.Println(arg)
 	command := new(Command)
 	command.name = name
 
