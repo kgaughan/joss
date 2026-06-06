@@ -1,9 +1,6 @@
 name: Docker images for integration tests
 
 on:
-#  push:
-#    branches:
-#      - master
   workflow_dispatch:
 
 env:
@@ -31,7 +28,8 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
   docker:
-    needs: [list-dockerfiles]
+    needs:
+      - list-dockerfiles
     name: Build and push Docker image
     runs-on: ubuntu-latest
     strategy:
@@ -78,10 +76,10 @@ jobs:
       - name: Build and push tag
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: integration-tests
           file: ${{ matrix.dockerfile }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}:latest
+            ghcr.io/${{ github.repository_owner }}/joss_integration_${{ matrix.image }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           platforms: ${{ env.PLATFORMS }}
