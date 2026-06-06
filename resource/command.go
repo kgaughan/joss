@@ -3,7 +3,6 @@ package resource
 import (
 	"bufio"
 	"context"
-	"fmt"
 	"io"
 	"strings"
 	"time"
@@ -59,7 +58,8 @@ func (c *Command) Validate(sys *system.System) []TestResult {
 	var results []TestResult
 	sysCommand := sys.NewCommand(ctx, c.GetExec(), sys, util.Config{Timeout: time.Duration(c.Timeout) * time.Millisecond})
 
-	cExitStatus := deprecateAtoI(c.ExitStatus, fmt.Sprintf("%s: command.exit-status", c.ID()))
+	cExitStatus := deprecateAtoI(c.ExitStatus, c.ID()+": command.exit-status")
+
 	results = append(results, ValidateValue(c, "exit-status", cExitStatus, sysCommand.ExitStatus, skip))
 	if isSet(c.Stdout) {
 		results = append(results, ValidateValue(c, "stdout", c.Stdout, sysCommand.Stdout, skip))
