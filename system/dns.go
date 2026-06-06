@@ -105,7 +105,7 @@ func (d *DefDNS) Resolvable() (bool, error) {
 	return d.resolvable, err
 }
 
-// Stub out
+// Stub out.
 func (d *DefDNS) Exists() (bool, error) {
 	return false, nil
 }
@@ -163,7 +163,7 @@ func DNSlookup(host, server, qtype string, timeout int) ([]string, error) {
 	}
 }
 
-// A and AAAA record lookup - similar to net.LookupHost
+// A and AAAA record lookup - similar to net.LookupHost.
 func LookupHost(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	a, _ := LookupA(host, server, c, m)
 	aaaa, _ := LookupAAAA(host, server, c, m)
@@ -172,7 +172,7 @@ func LookupHost(host, server string, c *dns.Client, m *dns.Msg) (addrs []string,
 	return
 }
 
-// A record lookup
+// A record lookup.
 func LookupA(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeA)
 	r, _, err := c.Exchange(m, parseServerString(server))
@@ -199,7 +199,7 @@ func parseServerString(server string) string {
 	return net.JoinHostPort(srvhost, srvport)
 }
 
-// AAAA (IPv6) record lookup
+// AAAA (IPv6) record lookup.
 func LookupAAAA(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeAAAA)
 	r, _, err := c.Exchange(m, parseServerString(server))
@@ -216,7 +216,7 @@ func LookupAAAA(host, server string, c *dns.Client, m *dns.Msg) (addrs []string,
 	return
 }
 
-// CNAME record lookup
+// CNAME record lookup.
 func LookupCNAME(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeCNAME)
 	r, _, err := c.Exchange(m, parseServerString(server))
@@ -233,7 +233,7 @@ func LookupCNAME(host, server string, c *dns.Client, m *dns.Msg) (addrs []string
 	return
 }
 
-// MX record lookup
+// MX record lookup.
 func LookupMX(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeMX)
 	r, _, err := c.Exchange(m, parseServerString(server))
@@ -251,7 +251,7 @@ func LookupMX(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, e
 	return
 }
 
-// NS record lookup
+// NS record lookup.
 func LookupNS(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeNS)
 	r, _, err := c.Exchange(m, parseServerString(server))
@@ -268,7 +268,7 @@ func LookupNS(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, e
 	return
 }
 
-// SRV record lookup
+// SRV record lookup.
 func LookupSRV(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeSRV)
 	r, _, err := c.Exchange(m, parseServerString(server))
@@ -289,7 +289,7 @@ func LookupSRV(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, 
 	return
 }
 
-// TXT record lookup
+// TXT record lookup.
 func LookupTXT(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeTXT)
 	r, _, err := c.Exchange(m, parseServerString(server))
@@ -306,7 +306,7 @@ func LookupTXT(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, 
 	return
 }
 
-// PTR record lookup
+// PTR record lookup.
 func LookupPTR(addr, server string, c *dns.Client, m *dns.Msg) (name []string, err error) {
 	reverse, err := dns.ReverseAddr(addr)
 	if err != nil {
@@ -327,7 +327,7 @@ func LookupPTR(addr, server string, c *dns.Client, m *dns.Msg) (name []string, e
 	return
 }
 
-// CAA record lookup
+// CAA record lookup.
 func LookupCAA(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, err error) {
 	m.SetQuestion(dns.Fqdn(host), dns.TypeCAA)
 	r, _, err := c.Exchange(m, parseServerString(server))

@@ -60,7 +60,7 @@ func getStoreFormatFromData(data []byte) (int, error) {
 	return 0, errCannotDetermineFormat
 }
 
-// ReadJSON Reads json file returning GossConfig
+// ReadJSON Reads json file returning GossConfig.
 func ReadJSON(filePath string) (GossConfig, error) {
 	file, err := os.ReadFile(filePath)
 	if err != nil {
@@ -135,7 +135,7 @@ func varsFromString(varsString string) (map[string]any, error) {
 	return vars, nil
 }
 
-// ReadJSONData Reads json byte array returning GossConfig
+// ReadJSONData Reads json byte array returning GossConfig.
 func ReadJSONData(data []byte, detectFormat bool) (GossConfig, error) {
 	var err error
 	if currentTemplateFilter != nil {
@@ -166,7 +166,7 @@ func ReadJSONData(data []byte, detectFormat bool) (GossConfig, error) {
 	return *gossConfig, nil
 }
 
-// RenderJSON reads json file recursively returning string
+// RenderJSON reads json file recursively returning string.
 func RenderJSON(c *util.Config) (string, error) {
 	var err error
 	debug = c.Debug
