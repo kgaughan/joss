@@ -1,5 +1,4 @@
 FROM alpine:3.23
-LABEL org.opencontainers.image.authors="Ahmed"
 
 # install apache2 and remove un-needed services
 RUN apk update && \

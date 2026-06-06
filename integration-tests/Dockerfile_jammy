@@ -1,5 +1,4 @@
 FROM ubuntu:jammy
-LABEL org.opencontainers.image.authors="Ahmed"
 
 RUN apt-get update && \
     apt-get install --no-install-recommends -y systemd-sysv && \

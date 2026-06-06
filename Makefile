@@ -1,139 +1,116 @@
-export GO15VENDOREXPERIMENT=1
-
 exe = github.com/goss-org/goss/cmd/goss
-pkgs = $(shell ./novendor.sh)
+pkgs = $(shell git ls-files -- '*.go' | xargs dirname | sort -u | xargs -L1 printf "./%s\n")
 cmd = goss
-GO111MODULE=on
 GO_FILES = $(shell git ls-files -- '*.go' ':!:*vendor*_test.go')
 VENV := $(shell echo $${VIRTUAL_ENV-.venv})
 PYTHON := $(VENV)/bin/python
 DOCS_DEPS := $(VENV)/.docs.dependencies
 
-.PHONY: all build install test release bench fmt lint vet test-int-all gen test-int32
-
+.PHONY: all
 all: test-short-all test-int-all dgoss-sha256 dcgoss-sha256 kgoss-sha256
 
+.PHONY: test-short-all
 test-short-all: fmt lint vet test
 
-install: release/goss-linux-amd64
-	$(info INFO: Starting build $@)
-	cp release/$(cmd)-linux-amd64 $(GOPATH)/bin/goss
-
+.PHONY: test
 test:
-	$(info INFO: Starting build $@)
-	./ci/go-test.sh
-
-cov:
 	go test -coverpkg=./... -coverprofile=c.out ./...
-	# go tool cover -func ./c.out
 
-funcov:
-	go test -coverpkg=./... -coverprofile=c.out ./...
+.PHONY: cov
+cov: test
 	go tool cover -func ./c.out
 
-htmlcov:
-	go test -v -coverpkg=./... -coverprofile=c.out ./...
+.PHONY: htmlcov
+htmlcov: test
 	go tool cover -html ./c.out
 
+.PHONY: lint
 lint:
 	$(info INFO: Starting build $@)
 	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.12.2
 	golangci-lint run --timeout 5m $(pkgs) || true
 
+.PHONY: vet
 vet:
 	$(info INFO: Starting build $@)
 	go vet $(pkgs) || true
 
+.PHONY: fmt
 fmt:
 	$(info INFO: Starting build $@)
 	./ci/go-fmt.sh
 
+.PHONY: bench
 bench:
 	$(info INFO: Starting build $@)
 	go test -bench=.
 
-test-int-validate-%: release/goss-%
+test-int-validate-%: build
 	$(info INFO: Starting build $@)
 	./integration-tests/run-validate-tests.sh $*
 
-test-int-serve-%: release/goss-%
+test-int-serve-%: build
 	$(info INFO: Starting build $@)
 	./integration-tests/run-serve-tests.sh $*
 
-release/goss-%: $(GO_FILES)
-	./release-build.sh $*
+.PHONY: build
+build:
+	goreleaser build --clean --snapshot
+	mkdir -p release
+	cp dist/binaries_linux_amd64_v1/goss release/goss-linux-amd64
+	cp dist/binaries_linux_arm64_v8.0/goss release/goss-linux-arm64
+	cp dist/binaries_darwin_amd64_v1/goss release/goss-darwin-amd64
+	cp dist/binaries_darwin_arm64_v8.0/goss release/goss-darwin-arm64
+	cp dist/binaries_windows_amd64_v1/goss.exe release/goss-windows-amd64.exe
 
-release:
-	$(MAKE) clean
-	$(MAKE) build
-
-build: build-linux release/goss-darwin-amd64 release/goss-darwin-arm64 release/goss-windows-amd64
-
-build-linux: release/goss-linux-386 release/goss-linux-amd64 release/goss-linux-arm release/goss-linux-arm64 release/goss-linux-s390x
-
+.PHONY: gen
 gen:
 	$(info INFO: Starting build $@)
 	go generate -tags genny $(pkgs)
 
+.PHONY: clean
 clean:
 	$(info INFO: Starting build $@)
+	rm -rf c.out
+	rm -rf ./dist
 	rm -rf ./release
 	rm -rf ./site
 	rm -rf ${VENV}
-
-build-images:
-	$(info INFO: Starting build $@)
-	development/build_images.sh
-
-push-images:
-	$(info INFO: Starting build $@)
-	development/push_images.sh
 
 # Update the matcher test golden files
 update-matcher-tests:
 	go test -v -run '^TestMatchers' . -update
 
+.PHONY: test-darwin-all test-linux-all test-windows-all
 test-darwin-all: test-short-all test-int-darwin-all
 # linux _does_ have the docker-style testing, but does _not_ currently have the same style integration tests darwin+windows do, _because_ of the docker-style testing.
-test-linux-all: test-short-all test-int-64 test-int-32
+test-linux-all: test-short-all test-int-64
 test-windows-all: test-short-all test-int-windows-all
 
+.PHONY: test-int-all test-int-64 test-int-darwin-all test-int-windows-all
 test-int-64: rockylinux9 bullseye jammy alpine3 arch test-int-serve-linux-amd64
-test-int-32: rockylinux9-32 bullseye-32 alpine3-32
 test-int-darwin-all: test-int-validate-darwin-amd64 test-int-serve-darwin-amd64
 test-int-windows-all: test-int-validate-windows-amd64 test-int-serve-windows-amd64
-test-int-all: test-int-32 test-int-64
+test-int-all: test-int-64
 
-.PHONY: rockylinux9-32
-rockylinux9-32: build-linux
-	$(info INFO: Starting build $@)
-	cd integration-tests/ && ./test.sh rockylinux9 386
-.PHONY: bullseye-32
-bullseye-32: build-linux
-	$(info INFO: Starting build $@)
-	cd integration-tests/ && ./test.sh bullseye 386
-.PHONY: alpine3-32
-alpine3-32: build-linux
-	$(info INFO: Starting build $@)
-	cd integration-tests/ && ./test.sh alpine3 386
 .PHONY: rockylinux9
-rockylinux9: build-linux
+rockylinux9: build
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh rockylinux9 amd64
 .PHONY: bullseye
-bullseye: build-linux
+bullseye: build
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh bullseye amd64
 .PHONY: jammy
-jammy: build-linux
+jammy: build
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh jammy amd64
 .PHONY: alpine3
-alpine3: build-linux
+alpine3: build
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh alpine3 amd64
 .PHONY: arch
-arch: build-linux
+arch: build
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh arch amd64
 
@@ -153,21 +130,23 @@ lint-yaml:
 
 $(PYTHON):
 	$(info Creating virtualenv in $(VENV))
-	@python -m venv $(VENV)
+	@python3 -m venv $(VENV)
 
 $(DOCS_DEPS): $(PYTHON) docs/requirements.txt
 	$(info Installing dependencies)
-	@pip install --upgrade pip
-	@pip install --requirement docs/requirements.txt
+	@$(VENV)/bin/pip install --upgrade pip
+	@$(VENV)/bin/pip install --requirement docs/requirements.txt
 	@touch $(DOCS_DEPS)
 
+.PHONY: docs/setup
 docs/setup: $(DOCS_DEPS)
 
+.PHONY: docs/serve
 docs/serve: docs/setup
 	$(info Running documentation live development server)
-	@mkdocs serve --strict
+	@$(VENV)/bin/mkdocs serve --strict
 
 .PHONY: docs
 docs: docs/setup
 	$(info Building documentation)
-	@mkdocs build --strict
+	@$(VENV)/bin/mkdocs build --strict

@@ -1,4 +1,4 @@
-name: Golang ci
+name: Integration tests
 on:
   # don't build any branch other than master (and prs) when git pushed
   pull_request: {}
@@ -52,6 +52,11 @@ jobs:
         with:
           go-version-file: go.mod
 
+      - name: Install GoReleaser
+        uses: goreleaser/goreleaser-action@v7
+        with:
+          install-only: true
+
       - name: Integration tests
         shell: bash
         run: make test-int-all
@@ -73,6 +78,11 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version-file: go.mod
+
+      - name: Install GoReleaser
+        uses: goreleaser/goreleaser-action@v7
+        with:
+          install-only: true
 
       - name: Integration tests
         shell: bash
