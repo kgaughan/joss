@@ -9,7 +9,7 @@ VENV := $(shell echo $${VIRTUAL_ENV-.venv})
 PYTHON := $(VENV)/bin/python
 DOCS_DEPS := $(VENV)/.docs.dependencies
 
-.PHONY: all build install test release bench fmt lint vet test-int-all gen centos7 test-int32 centos7-32
+.PHONY: all build install test release bench fmt lint vet test-int-all gen test-int32
 
 all: test-short-all test-int-all dgoss-sha256 dcgoss-sha256 kgoss-sha256
 
@@ -104,9 +104,6 @@ test-int-darwin-all: test-int-validate-darwin-amd64 test-int-serve-darwin-amd64
 test-int-windows-all: test-int-validate-windows-amd64 test-int-serve-windows-amd64
 test-int-all: test-int-32 test-int-64
 
-centos7-32: build-linux
-	$(info INFO: Starting build $@)
-	cd integration-tests/ && ./test.sh centos7 386
 .PHONY: rockylinux9-32
 rockylinux9-32: build-linux
 	$(info INFO: Starting build $@)
@@ -119,9 +116,6 @@ bullseye-32: build-linux
 alpine3-32: build-linux
 	$(info INFO: Starting build $@)
 	cd integration-tests/ && ./test.sh alpine3 386
-centos7: build-linux
-	$(info INFO: Starting build $@)
-	cd integration-tests/ && ./test.sh centos7 amd64
 .PHONY: rockylinux9
 rockylinux9: build-linux
 	$(info INFO: Starting build $@)
