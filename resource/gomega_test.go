@@ -161,10 +161,6 @@ func TestMatcherToGomegaMatcher(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		gomegaTestEqual(t, got, c.want, c.useNegateTester, c.in)
+		assert.Equal(t, c.want, got)
 	}
-}
-
-func gomegaTestEqual(t *testing.T, got, want any, useNegateTester bool, in string) {
-	assert.Equal(t, got, want)
 }
