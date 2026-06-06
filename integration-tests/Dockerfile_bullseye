@@ -1,5 +1,4 @@
 FROM debian:bullseye
-LABEL org.opencontainers.image.authors="Ahmed"
 
 RUN echo 'deb http://deb.debian.org/debian bullseye main contrib' > /etc/apt/sources.list
 RUN echo 'deb http://deb.debian.org/debian bullseye-updates main contrib' >> /etc/apt/sources.list

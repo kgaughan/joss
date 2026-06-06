@@ -7,10 +7,6 @@ updates:
     schedule:
       interval: "weekly"
       day: "saturday"
-    assignees:
-      - "aelsabbahy"
-    reviewers:
-      - "aelsabbahy"
     open-pull-requests-limit: 0
 
   - package-ecosystem: "github-actions"
