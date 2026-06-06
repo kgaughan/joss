@@ -1,6 +1,6 @@
 module github.com/goss-org/goss
 
-go 1.25.10
+go 1.25.11
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
