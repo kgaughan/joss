@@ -16,7 +16,8 @@ container_repository="ghcr.io/kgaughan"
 cd integration-tests
 
 cp "../release/goss-linux-$arch" "goss/$os/"
-$DOCKER_BIN pull "$container_repository/joss_integration_$os:latest"
+image_name="$container_repository/joss_integration_$os"
+$DOCKER_BIN pull "$image_name:latest"
 
 container_name="goss_int_test_${os}_${arch}"
 docker_exec() {
@@ -34,7 +35,7 @@ network=goss-test
 $DOCKER_BIN network create --driver bridge --subnet '172.19.0.0/16' $network
 $DOCKER_BIN run -d --name httpbin --network $network docker.io/kennethreitz/httpbin
 opts=(--env OS=$os --cap-add SYS_ADMIN -v "$PWD/goss:/goss" -d --name "$container_name" --security-opt seccomp:unconfined --security-opt label:disable --privileged)
-id=$($DOCKER_BIN run "${opts[@]}" --network $network "$container_repository/joss_integration_$os" /sbin/init)
+id=$($DOCKER_BIN run "${opts[@]}" --network $network "$image_name" /sbin/init)
 ip=$($DOCKER_BIN inspect --format '{{ .NetworkSettings.IPAddress }}' "$id")
 trap "rv=\$?; $DOCKER_BIN rm -vf $id || :;$DOCKER_BIN rm -vf httpbin || :;$DOCKER_BIN network rm $network || :; exit \$rv" INT TERM EXIT
 # Give httpd time to start up, adding 1 second to see if it helps with intermittent CI failures
