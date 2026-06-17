@@ -2,7 +2,10 @@ package matchers
 
 import (
 	"encoding/json"
+	"fmt"
+	"reflect"
 
+	"github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/matchers"
 	"github.com/samber/lo"
 )
@@ -17,6 +20,13 @@ func ContainElements(elements ...any) GossMatcher {
 			Elements: elements,
 		},
 	}
+}
+
+func (m *ContainElementsMatcher) Match(actual any) (success bool, err error) {
+	if !isArrayOrSlice(actual) && !isMap(actual) {
+		return false, fmt.Errorf("ContainElements matcher expects an array/slice/map.  Got:\n%s", format.Object(actual, 1))
+	}
+	return m.ContainElementsMatcher.Match(actual)
 }
 
 func (m *ContainElementsMatcher) FailureResult(actual any) MatcherResult {
@@ -47,4 +57,23 @@ func (m *ContainElementsMatcher) MarshalJSON() ([]byte, error) {
 	j := make(map[string]any)
 	j["contain-elements"] = m.Elements
 	return json.Marshal(j)
+}
+
+func isMap(a any) bool {
+	if a == nil {
+		return false
+	}
+	return reflect.TypeOf(a).Kind() == reflect.Map
+}
+
+func isArrayOrSlice(a any) bool {
+	if a == nil {
+		return false
+	}
+	switch reflect.TypeOf(a).Kind() {
+	case reflect.Array, reflect.Slice:
+		return true
+	default:
+		return false
+	}
 }
