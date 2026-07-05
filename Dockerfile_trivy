@@ -1,3 +1,4 @@
+ARG GO_VERSION
 FROM docker.io/golang:${GO_VERSION}-alpine AS base
 
 ARG GOSS_VERSION=v0.0.0
@@ -5,6 +6,7 @@ WORKDIR /build
 
 RUN --mount=target=. \
     CGO_ENABLED=0 go build \
+    -trimpath \
     -ldflags "-X github.com/goss-org/goss/util.Version=${GOSS_VERSION} -s -w" \
     -o "/release/goss" \
     ./cmd/goss
