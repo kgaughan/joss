@@ -39,7 +39,7 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: |
-            ghcr.io/${{ github.repository_owner }}/goss
+            ghcr.io/${{ github.repository_owner }}/joss
 
       - name: Get latest git tag
         if: github.ref_name == 'master'
@@ -76,14 +76,14 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/goss:master
+            ghcr.io/${{ github.repository_owner }}/joss:master
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.36.0
         with:
-          image-ref: ghcr.io/${{ github.repository_owner }}/goss:master
+          image-ref: ghcr.io/${{ github.repository_owner }}/joss:master
           format: "sarif"
           output: "trivy-results.sarif"
 
