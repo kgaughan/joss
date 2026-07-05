@@ -144,9 +144,9 @@ docs/setup: $(DOCS_DEPS)
 .PHONY: docs/serve
 docs/serve: docs/setup
 	$(info Running documentation live development server)
-	@$(VENV)/bin/mkdocs serve --strict
+	@$(VENV)/bin/zensical serve --strict
 
 .PHONY: docs
 docs: docs/setup
 	$(info Building documentation)
-	@$(VENV)/bin/mkdocs build --strict
+	@$(VENV)/bin/zensical build --strict

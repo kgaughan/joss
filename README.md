@@ -1,6 +1,6 @@
 # Goss - Quick and Easy server validation
 
-[![Build Status](https://travis-ci.org/goss-org/goss.svg?branch=master)](https://travis-ci.org/goss-org/goss)
+[![Integration tests](https://github.com/goss-org/goss/actions/workflows/golangci.yaml/badge.svg)](https://github.com/goss-org/goss/actions/workflows/golangci.yaml)
 [![Github All Releases](https://img.shields.io/github/downloads/goss-org/goss/total.svg?maxAge=604800)](https://github.com/goss-org/goss/releases)
 [![Documentation Status](https://readthedocs.org/projects/goss/badge/)](https://goss.rocks/)
 **
@@ -19,7 +19,7 @@ Also, user submitted wrapper scripts for Kubernetes [kgoss](https://github.com/g
 and Docker Compose [dcgoss](https://github.com/goss-org/goss/tree/master/extras/dcgoss).
 
 **Note:** For some Docker/Kubernetes healthcheck, health endpoint, and
-container ordering examples, [see my blog post][kubernetes-simplified-health-checks].
+container ordering examples, see [my blog post][kubernetes-simplified-health-checks].
 
 ## Introduction
 
@@ -86,6 +86,53 @@ chmod +rx /usr/local/bin/dgoss
 
 ```bash
 make build
+```
+
+Alternatively, you can build it with [goreleaser](https://goreleaser.com/). To
+build a binary, use `gorelease build`, and to only build for the same OS and
+architecture as the machine you're building on, include the `--single-target`
+flag. The `--clean` flag will clean up any existing builds, and `--snapshot`
+will allow you to build against something other than a tag.
+
+Here's an example:
+
+```console
+$ goreleaser build --clean --single-target --snapshot
+  • skipping validate...
+  • cleaning distribution directory
+  • loading environment variables
+  • getting and validating git state
+    • ignoring errors because this is a snapshot     error=git doesn't contain any tags - either add a tag or use --snapshot
+    • using tags                                     previous=<unknown> current=v0.0.0
+    • pipe skipped or partially skipped              reason=disabled during snapshot mode
+  • parsing tag
+  • setting defaults
+  • partial
+  • snapshotting
+    • building snapshot...                           version=0.0.1-next
+  • running before hooks
+    • running                                        hook=go mod tidy
+  • ensuring distribution directory
+  • setting up metadata
+  • writing release metadata
+  • loading go mod information
+  • build prerequisites
+  • building binaries
+    • partial build                                  match=target=linux_arm64_v8.0
+    • building                                       paths=cmd/goss binaries=goss target=linux_arm64_v8.0
+      • took: 31s
+  • writing artifacts metadata
+  • build succeeded after 31s
+  • thanks for using GoReleaser!
+$ tree dist
+dist
+├── artifacts.json
+├── binaries_linux_arm64_v8.0
+│   └── goss                            <- your binary
+├── config.yaml
+└── metadata.json
+
+2 directories, 4 files
 ```
 
 <!-- --8<-- [end:install] -->
@@ -199,6 +246,7 @@ See #793 for screenshots.
 For example, to configure the Json schema in JetBrains intellij IDEA,
 follow [documented instructions](https://www.jetbrains.com/help/idea/json.html#ws_json_schema_add_custom),
 with arguments such as:
+
 * `schema url=https://goss.rocks/schema.yaml`
 * `schema version=Json schema version 7`
 * `file path pattern=*/goss.yaml`
@@ -274,7 +322,7 @@ rendered_goss.yaml: fail: process.chrome: skip is required
 rendered_goss.yaml: fail: service.sshd: skip is required
 ```
 
-Full list of available Json schema validators can be found in <https://json-schema.org/implementations.html#validator-command%20line>
+JSON Schema maintains a [table of validators](https://json-schema.org/tools?query=&sortBy=name&sortOrder=ascending&groupBy=toolingTypes&licenses=&languages=&drafts=&toolingTypes=validator&environments=Command+Line&showObsolete=false).
 
 <!-- --8<-- [end:quickstart] -->
 <!-- --8<-- [start:about] -->

@@ -79,6 +79,7 @@ func (u *HTTP) Validate(sys *system.System) []TestResult {
 	})
 	sysHTTP.SetAllowInsecure(u.AllowInsecure)
 	sysHTTP.SetNoFollowRedirects(u.NoFollowRedirects)
+	defer sysHTTP.Close()
 
 	var results []TestResult
 	results = append(results, ValidateValue(u, "status", u.Status, sysHTTP.Status, skip))
