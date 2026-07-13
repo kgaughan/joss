@@ -74,7 +74,7 @@ func (ret *AddrMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Addr]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -103,7 +103,7 @@ func (ret *AddrMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Addr]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -175,7 +175,7 @@ func (ret *CommandMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Command]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -204,7 +204,7 @@ func (ret *CommandMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Command]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -276,7 +276,7 @@ func (ret *DNSMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[DNS]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -305,7 +305,7 @@ func (ret *DNSMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[DNS]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -377,7 +377,7 @@ func (ret *FileMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[File]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -406,7 +406,7 @@ func (ret *FileMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[File]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -478,7 +478,7 @@ func (ret *GossfileMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Gossfile]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -507,7 +507,7 @@ func (ret *GossfileMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Gossfile]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -579,7 +579,7 @@ func (ret *GroupMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Group]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -608,7 +608,7 @@ func (ret *GroupMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Group]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -680,7 +680,7 @@ func (ret *PackageMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Package]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -709,7 +709,7 @@ func (ret *PackageMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Package]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -781,7 +781,7 @@ func (ret *PortMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Port]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -810,7 +810,7 @@ func (ret *PortMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Port]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -882,7 +882,7 @@ func (ret *ProcessMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Process]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -911,7 +911,7 @@ func (ret *ProcessMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Process]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -983,7 +983,7 @@ func (ret *ServiceMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Service]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1012,7 +1012,7 @@ func (ret *ServiceMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Service]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1084,7 +1084,7 @@ func (ret *UserMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[User]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1113,7 +1113,7 @@ func (ret *UserMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[User]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1185,7 +1185,7 @@ func (ret *KernelParamMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[KernelParam]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1214,7 +1214,7 @@ func (ret *KernelParamMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[KernelParam]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1286,7 +1286,7 @@ func (ret *MountMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Mount]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1315,7 +1315,7 @@ func (ret *MountMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Mount]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1387,7 +1387,7 @@ func (ret *InterfaceMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Interface]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1416,7 +1416,7 @@ func (ret *InterfaceMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[Interface]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1488,7 +1488,7 @@ func (ret *HTTPMap) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[HTTP]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {
@@ -1517,7 +1517,7 @@ func (ret *HTTPMap) UnmarshalYAML(unmarshal func(v any) error) error {
 		return err
 	}
 
-	typ := reflect.TypeFor[HTTP]()
+	typ := reflect.TypeOf(zero)
 	typs := strings.Split(typ.String(), ".")[1]
 	for id, res := range tmp {
 		if res == nil {

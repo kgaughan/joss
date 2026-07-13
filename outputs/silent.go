@@ -13,7 +13,9 @@ func (r Silent) ValidOptions() []*formatOption {
 	return []*formatOption{}
 }
 
-func (r Silent) Output(w io.Writer, results <-chan []resource.TestResult,
+func (r Silent) Output(
+	w io.Writer,
+	results <-chan []resource.TestResult,
 	outConfig util.OutputConfig,
 ) (exitCode int) {
 	var failed int

@@ -17,7 +17,9 @@ func (r Documentation) ValidOptions() []*formatOption {
 	}
 }
 
-func (r Documentation) Output(w io.Writer, results <-chan []resource.TestResult,
+func (r Documentation) Output(
+	w io.Writer,
+	results <-chan []resource.TestResult,
 	outConfig util.OutputConfig,
 ) (exitCode int) {
 	includeRaw := !util.IsValueInList(foExcludeRaw, outConfig.FormatOptions)
