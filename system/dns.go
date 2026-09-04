@@ -169,7 +169,7 @@ func LookupHost(host, server string, c *dns.Client, m *dns.Msg) (addrs []string,
 	aaaa, _ := LookupAAAA(host, server, c, m)
 	addrs = append(a, aaaa...)
 
-	return
+	return addrs, err
 }
 
 // A record lookup.
@@ -186,7 +186,7 @@ func LookupA(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, er
 		}
 	}
 
-	return
+	return addrs, err
 }
 
 // parseServerString - Check if the DNS Server in server config has a port, if not ensure 53 is prefixed.
@@ -213,7 +213,7 @@ func LookupAAAA(host, server string, c *dns.Client, m *dns.Msg) (addrs []string,
 		}
 	}
 
-	return
+	return addrs, err
 }
 
 // CNAME record lookup.
@@ -230,7 +230,7 @@ func LookupCNAME(host, server string, c *dns.Client, m *dns.Msg) (addrs []string
 		}
 	}
 
-	return
+	return addrs, err
 }
 
 // MX record lookup.
@@ -248,7 +248,7 @@ func LookupMX(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, e
 		}
 	}
 
-	return
+	return addrs, err
 }
 
 // NS record lookup.
@@ -265,7 +265,7 @@ func LookupNS(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, e
 		}
 	}
 
-	return
+	return addrs, err
 }
 
 // SRV record lookup.
@@ -286,7 +286,7 @@ func LookupSRV(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, 
 		}
 	}
 
-	return
+	return addrs, err
 }
 
 // TXT record lookup.
@@ -303,7 +303,7 @@ func LookupTXT(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, 
 		}
 	}
 
-	return
+	return addrs, err
 }
 
 // PTR record lookup.
@@ -324,7 +324,7 @@ func LookupPTR(addr, server string, c *dns.Client, m *dns.Msg) (name []string, e
 		name = append(name, ans.(*dns.PTR).Ptr)
 	}
 
-	return
+	return name, err
 }
 
 // CAA record lookup.
@@ -343,5 +343,5 @@ func LookupCAA(host, server string, c *dns.Client, m *dns.Msg) (addrs []string, 
 		}
 	}
 
-	return
+	return addrs, err
 }

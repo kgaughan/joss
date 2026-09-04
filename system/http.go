@@ -86,7 +86,7 @@ func HeaderToArray(header http.Header) (res []string) {
 		}
 	}
 	sort.Strings(res)
-	return
+	return res
 }
 
 func (u *DefHTTP) setup() error {
