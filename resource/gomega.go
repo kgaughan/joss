@@ -36,7 +36,6 @@ func matcherToGomegaMatcher(matcher any) (matchers.GossMatcher, error) {
 	matcherMap, ok := matcher.(map[string]any)
 	if !ok {
 		return nil, invalidArgSyntaxError("matcher", "map", matcher)
-		//panic(fmt.Sprintf("Syntax Error: Unexpected matcher type: %T\n\n", matcher))
 	}
 	keys := lo.Keys(matcherMap)
 	if len(keys) > 1 {
