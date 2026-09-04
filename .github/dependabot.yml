@@ -9,6 +9,11 @@ updates:
       day: "saturday"
     open-pull-requests-limit: 0
 
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
